@@ -1,2 +1,4 @@
 *.jar
 !gradle/wrapper/gradle-wrapper.jar
+# Claude Code のローカル状態（PR説明文の起点）
+.claude/pr-checkpoint.txt
