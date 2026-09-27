@@ -6,6 +6,53 @@ create-vue で作ったプロジェクトを題材に、**Vue 3 アプリが起�
 
 ---
 
+## 用語集
+
+### ツール
+
+- **Vite**: 開発サーバーとビルドを担うツール。webpack の後継的な位置づけで、Vue の作者が作った。Vue でも React でも使われる
+- **create-vue**: Vue 公式の雛形ツール（`npm create vue@latest`）。中身は Vite で、Router・Pinia・ESLint などの設定まで済ませた状態で作ってくれる
+- **Linter**: コードの誤りや、よくない書き方を指摘するツール（ESLint、Oxlint）
+- **Formatter**: インデントや改行などの見た目を自動で整えるツール（Prettier）
+- **Oxlint**: Rust 製の高速な Linter。create-vue では ESLint と併用され、Oxlint で見られるルールは ESLint 側で無効にして役割を分けている
+- **Vitest**: Vite と設定を共有できる単体テストツール。API は Jest とほぼ同じ（`describe` / `it` / `expect`）
+- **E2E テスト**: End-to-End テスト。実際のブラウザを動かし、利用者と同じ操作で画面全体を確認するテスト（Playwright、Cypress など）
+- **RC**: Release Candidate。正式リリース直前の候補版。安定版ではない
+- **Vue DevTools**: ブラウザでコンポーネントの状態や Pinia の store の中身を確認できる開発者向けツール
+
+### Vue の基本
+
+- **SFC**: Single File Component。`.vue` ファイル1つに `<script>`・`<template>`・`<style>` をまとめて書く形式
+- **エントリーポイント**: アプリが最初に読み込まれる入口のファイル。Vite では `index.html`
+- **インスタンス**: コンポーネントの定義（設計図）から作られた実体。同じコンポーネントを3回使えば、インスタンスは3つできる
+- **マウント**: コンポーネントを実際の DOM に描画すること。`app.mount('#app')` はアプリ全体を `#app` に描画する
+- **リアクティブ（リアクティビティ）**: 値の変化を Vue が自動で追跡し、その値を使っている画面の部分を描き直す仕組み。`ref` / `reactive` で包んだ値だけが対象になる
+- **props**: 親コンポーネントから子コンポーネントに渡す値。React の props と同じ
+- **コンパイラマクロ**: import せずに使える、ビルド時に Vue のコンパイラが別のコードに変換する特別な関数（`defineProps`、`defineEmits` など）
+- **scoped CSS**: `<style scoped>` と書くと、その CSS がそのコンポーネントの中だけに効く。CSS Modules を自動でかけているイメージ
+- **プラグイン**: `app.use()` でアプリ全体に機能を追加する仕組み。Router や Pinia はプラグインとして登録する。React で Provider で囲むことに相当する
+- **Composable**: `useXxx` という名前の、ロジックを再利用するための関数。React のカスタムフックに相当する
+
+### Router
+
+- **SPA**: Single Page Application。ページ全体を読み込み直さずに、JavaScript で画面を切り替えるアプリ
+- **History API（`createWebHistory`）**: ブラウザの機能を使い、`/about` のような普通の URL で画面を切り替える方式。`#/about` のようにハッシュを使う方式もある（`createWebHashHistory`）
+- **ナビゲーションガード**: 画面遷移の前後に割り込む処理。例：ログインしていなければログイン画面へ飛ばす
+- **遅延読み込み（Lazy Loading）**: その画面を開いたときに初めて JS ファイルを読み込むこと。`() => import('...')` と書く
+- **コード分割（Code Splitting）**: ビルド結果を複数の JS ファイル（チャンク）に分けること。遅延読み込みを書くと、その画面の分が別ファイルになる
+- **ハッシュ付きファイル名**: `About.a1b2c3.js` のように、中身から計算した識別子を付けたファイル名。中身が変わると名前も変わるので、ブラウザのキャッシュが古いまま残る問題を防げる
+
+### Pinia
+
+- **store**: アプリ全体で共有する状態と、それを操作する処理をまとめたもの
+- **state**: store が持つデータ本体。setup store では `ref`
+- **getter**: state から計算して得られる値。setup store では `computed`
+- **action**: state を変更する処理。setup store では普通の関数
+- **setup store**: `defineStore('id', () => { ... })` のように関数で書く Pinia の書き方。中身はコンポーネントの `<script setup>` とほぼ同じになる
+- **mutations**: Vuex で state を変更するときに必ず通す必要があった仕組み。Pinia では廃止され、action から直接変更する
+
+---
+
 ## 1. プロジェクトの作り方
 
 ```bash
