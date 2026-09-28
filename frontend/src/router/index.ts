@@ -22,6 +22,11 @@ const router = createRouter({
       name: 'ref-reactive',
       component: () => import('../views/practice/RefReactiveView.vue'),
     },
+    {
+      path: '/computed-watch',
+      name: 'computed-watch',
+      component: () => import('../views/practice/ComputedWatchView.vue'),
+    },
   ],
 })
 
