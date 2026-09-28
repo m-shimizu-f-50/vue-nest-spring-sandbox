@@ -27,6 +27,11 @@ const router = createRouter({
       name: 'computed-watch',
       component: () => import('../views/practice/ComputedWatchView.vue'),
     },
+    {
+      path: '/props-emit',
+      name: 'props-emit',
+      component: () => import('../views/practice/PropsEmitView.vue'),
+    },
   ],
 })
 
