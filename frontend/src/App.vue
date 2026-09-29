@@ -1,69 +1,50 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+// ナビに並べるリンク。to にはパスではなくルートの name を使う（パスを変えてもここは直さなくてよい）
+const links = [
+  { name: 'home', label: 'ホーム' },
+  { name: 'ref-reactive', label: 'ref / reactive' },
+  { name: 'computed-watch', label: 'computed / watch' },
+  { name: 'props-emit', label: 'props / emit' },
+  { name: 'pinia', label: 'Pinia' },
+]
+</script>
 
 <template>
+  <header class="app-header">
+    <nav>
+      <RouterLink v-for="link in links" :key="link.name" :to="{ name: link.name }">
+        {{ link.label }}
+      </RouterLink>
+    </nav>
+  </header>
+
   <RouterView />
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.app-header {
+  position: sticky; /* スクロールしても上に残る */
+  top: 0;
+  z-index: 10;
+  background-color: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
 }
 
 nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.75rem 0;
 }
 
 nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
 }
 
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+/* 今いるページのリンク。RouterLink が自動で付けてくれる class */
+nav a.router-link-exact-active {
+  color: var(--color-background);
+  background-color: hsla(160, 100%, 37%, 1);
 }
 </style>
