@@ -32,6 +32,11 @@ const router = createRouter({
       name: 'props-emit',
       component: () => import('../views/practice/PropsEmitView.vue'),
     },
+    {
+      path: '/pinia',
+      name: 'pinia',
+      component: () => import('../views/practice/PiniaView.vue'),
+    },
   ],
 })
 
