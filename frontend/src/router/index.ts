@@ -37,6 +37,11 @@ const router = createRouter({
       name: 'pinia',
       component: () => import('../views/practice/PiniaView.vue'),
     },
+    {
+      path: '/validation-basics',
+      name: 'validation-basics',
+      component: () => import('../views/practice/ValidationBasicsView.vue'),
+    },
   ],
 })
 
