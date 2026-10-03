@@ -6,6 +6,7 @@ const links = [
   { name: 'computed-watch', label: 'computed / watch' },
   { name: 'props-emit', label: 'props / emit' },
   { name: 'pinia', label: 'Pinia' },
+  { name: 'validation-basics', label: 'VeeValidate 基本' },
 ]
 </script>
 
