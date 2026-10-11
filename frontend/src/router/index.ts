@@ -42,6 +42,11 @@ const router = createRouter({
       name: 'validation-basics',
       component: () => import('../views/practice/ValidationBasicsView.vue'),
     },
+    {
+      path: '/application',
+      name: 'application',
+      component: () => import('../views/practice/ApplicationView.vue'),
+    },
   ],
 })
 

@@ -7,6 +7,7 @@ const links = [
   { name: 'props-emit', label: 'props / emit' },
   { name: 'pinia', label: 'Pinia' },
   { name: 'validation-basics', label: 'VeeValidate 基本' },
+  { name: 'application', label: '段階開示フォーム' },
 ]
 </script>
 
