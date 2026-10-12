@@ -48,11 +48,9 @@ export const useApplicationStore = defineStore('application', () => {
   }
 
   // action
-  // 今入力中のモジュールで押されたときだけ confirmedCount を進める
-  function proceed(id: ModuleId): void {
-    const index = modules.value.findIndex((m) => m.id === id)
-
-    if (index === confirmedCount.value) {
+  // 今入力中のモジュールを確認済みにして、次へ進める（最後のモジュールを超えては進まない）
+  function proceed(): void {
+    if (confirmedCount.value < modules.value.length - 1) {
       confirmedCount.value++
     }
   }

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import ApplicantModule from '@/components/application/ApplicantModule.vue'
+import ModuleFooter from '@/components/application/ModuleFooter.vue'
 import PaymentModule from '@/components/application/PaymentModule.vue'
 import StatusBar from '@/components/application/StatusBar.vue'
 import { useApplicationStore } from '@/stores/application'
 
 // シェル（大皿）は並べるだけ。値も進捗も持たない（すべて store にある）
 const applicationStore = useApplicationStore()
-const { isModuleVisible } = applicationStore
+const { isModuleVisible, proceed, cancelApplication } = applicationStore
 </script>
 
 <template>
@@ -19,6 +20,10 @@ const { isModuleVisible } = applicationStore
       <ApplicantModule />
       <PaymentModule v-if="isModuleVisible('payment')" />
     </main>
+
+    <div class="footer-area">
+      <ModuleFooter @proceed="proceed" @cancel="cancelApplication" />
+    </div>
   </div>
 </template>
 
@@ -34,6 +39,10 @@ const { isModuleVisible } = applicationStore
   position: sticky; /* モジュールが縦に伸びても、ステータスバーは見えたまま */
   top: 4rem;
   align-self: start;
+}
+
+.footer-area {
+  grid-column: 1 / -1; /* ステータスバーとモジュールの2列をまたいで横幅いっぱいにする */
 }
 
 .module-area {

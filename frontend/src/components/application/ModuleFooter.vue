@@ -15,11 +15,13 @@ defineEmits<{
 <style scoped>
 .module-footer {
   display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid var(--color-border);
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-background-soft); /* モジュールと見分けがつくよう、地の色を変える */
 }
 
 button {
@@ -36,6 +38,7 @@ button {
 }
 
 .proceed {
+  min-width: 8rem;
   border: 1px solid hsla(160, 100%, 37%, 1);
   background-color: hsla(160, 100%, 37%, 1);
   color: #fff;

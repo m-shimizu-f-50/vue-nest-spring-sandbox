@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { useApplicationStore } from '@/stores/application'
 import { storeToRefs } from 'pinia'
-import ModuleFooter from './ModuleFooter.vue'
 
 const store = useApplicationStore()
 const { payment } = storeToRefs(store)
-const { proceed, cancelApplication } = store
 </script>
 
 <template>
@@ -18,7 +16,6 @@ const { proceed, cancelApplication } = store
         <option value="bank">銀行振込</option>
       </select>
     </div>
-    <ModuleFooter @proceed="proceed('payment')" @cancel="cancelApplication" />
   </section>
 </template>
 
