@@ -61,6 +61,15 @@ export const useApplicationStore = defineStore('application', () => {
     payment.value = createInitialPayment()
   }
 
+  function saveApplicant(values: ApplicantInfo): void {
+    // 受け取った値を applicant に保存する
+    applicant.value = values
+  }
+
+  function savePayment(values: PaymentInfo): void {
+    payment.value = values
+  }
+
   return {
     modules,
     currentModule,
@@ -70,5 +79,7 @@ export const useApplicationStore = defineStore('application', () => {
     isModuleVisible,
     proceed,
     cancelApplication,
+    saveApplicant,
+    savePayment,
   }
 })

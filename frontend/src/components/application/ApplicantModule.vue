@@ -1,10 +1,16 @@
 <script setup lang="ts">
-// モジュールは store を見て表示し、store に書くだけ。自分では値を持たない
-import { useApplicationStore } from '@/stores/application'
-import { storeToRefs } from 'pinia'
+import { useField } from 'vee-validate'
 
-const store = useApplicationStore()
-const { applicant } = storeToRefs(store)
+const {
+  value: name,
+  errorMessage: nameError,
+  handleBlur: nameBlur,
+} = useField<string>('applicant.name')
+const {
+  value: phone,
+  errorMessage: phoneError,
+  handleBlur: phoneBlur,
+} = useField<string>('applicant.phone')
 </script>
 
 <template>
@@ -12,12 +18,14 @@ const { applicant } = storeToRefs(store)
     <h2>申込者情報</h2>
     <div class="field">
       <label for="name">氏名</label>
-      <input id="name" type="text" v-model="applicant.name" />
+      <input id="name" type="text" v-model="name" @blur="nameBlur($event, true)" />
     </div>
+    <span class="error" v-if="nameError">{{ nameError }}</span>
     <div class="field">
       <label for="phone">電話番号</label>
-      <input id="phone" type="tel" v-model="applicant.phone" />
+      <input id="phone" type="tel" v-model="phone" @blur="phoneBlur($event, true)" />
     </div>
+    <span class="error" v-if="phoneError">{{ phoneError }}</span>
   </section>
 </template>
 
@@ -58,5 +66,10 @@ const { applicant } = storeToRefs(store)
 .field input:focus {
   outline: 2px solid hsla(160, 100%, 37%, 1);
   outline-offset: -1px;
+}
+.error {
+  margin: -0.25rem 0 0 6.75rem; /* ラベル列（6rem）+ gap の分だけ下げ、入力欄の真下に揃える */
+  color: #d33;
+  font-size: 0.85rem;
 }
 </style>

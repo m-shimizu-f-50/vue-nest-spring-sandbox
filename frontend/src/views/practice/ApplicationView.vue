@@ -4,10 +4,50 @@ import ModuleFooter from '@/components/application/ModuleFooter.vue'
 import PaymentModule from '@/components/application/PaymentModule.vue'
 import StatusBar from '@/components/application/StatusBar.vue'
 import { useApplicationStore } from '@/stores/application'
+import { useForm } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/yup'
+import { applicationFormSchema } from '@/schemas/application'
+import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
 
-// シェル（大皿）は並べるだけ。値も進捗も持たない（すべて store にある）
 const applicationStore = useApplicationStore()
 const { isModuleVisible, proceed, cancelApplication } = applicationStore
+const { applicant, payment, confirmedCount } = storeToRefs(applicationStore)
+
+// 確認済みの数をスキーマの context（$confirmedCount）として渡す。
+// 数が変わるたびにスキーマを作り直すため computed にする
+// （opts を渡すと既定の abortEarly: false が消えるので、明示して全エラーを集める）
+const validationSchema = computed(() =>
+  toTypedSchema(applicationFormSchema, {
+    abortEarly: false,
+    context: { confirmedCount: confirmedCount.value },
+  }),
+)
+
+const { handleSubmit, resetForm } = useForm({
+  validationSchema,
+  initialValues: {
+    applicant: { ...applicant.value },
+    payment: { ...payment.value },
+  },
+})
+
+const onProceed = handleSubmit((values) => {
+  // バリデーションが成功した場合、store に値を保存する
+  applicationStore.saveApplicant(values.applicant)
+  applicationStore.savePayment({ method: values.payment.method ?? null })
+  proceed()
+})
+
+const onCancel = () => {
+  cancelApplication()
+  resetForm({
+    values: {
+      applicant: { ...applicant.value },
+      payment: { ...payment.value },
+    },
+  })
+}
 </script>
 
 <template>
@@ -22,7 +62,7 @@ const { isModuleVisible, proceed, cancelApplication } = applicationStore
     </main>
 
     <div class="footer-area">
-      <ModuleFooter @proceed="proceed" @cancel="cancelApplication" />
+      <ModuleFooter @proceed="onProceed" @cancel="onCancel" />
     </div>
   </div>
 </template>

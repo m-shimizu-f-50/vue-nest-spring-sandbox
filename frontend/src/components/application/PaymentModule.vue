@@ -1,21 +1,25 @@
 <script setup lang="ts">
-import { useApplicationStore } from '@/stores/application'
-import { storeToRefs } from 'pinia'
+import type { PaymentMethod } from '@/types/application'
+import { useField } from 'vee-validate'
 
-const store = useApplicationStore()
-const { payment } = storeToRefs(store)
+// select は選んだ時点で値が変わり、そこで検証が走るので handleBlur は不要
+const { value: method, errorMessage: methodError } = useField<PaymentMethod | null>(
+  'payment.method',
+)
 </script>
 
 <template>
   <section class="module">
     <h2>支払方法</h2>
     <div class="field">
-      <select id="payment-method" v-model="payment.method">
+      <label for="payment-method">支払方法</label>
+      <select id="payment-method" v-model="method">
         <option :value="null">未選択</option>
         <option value="credit">クレジットカード</option>
         <option value="bank">銀行振込</option>
       </select>
     </div>
+    <span class="error" v-if="methodError">{{ methodError }}</span>
   </section>
 </template>
 
@@ -51,5 +55,10 @@ const { payment } = storeToRefs(store)
   background-color: var(--color-background);
   color: var(--color-text);
   font: inherit;
+}
+.error {
+  margin: -0.25rem 0 0 6.75rem; /* ラベル列（6rem）+ gap の分だけ下げ、入力欄の真下に揃える */
+  color: #d33;
+  font-size: 0.85rem;
 }
 </style>
