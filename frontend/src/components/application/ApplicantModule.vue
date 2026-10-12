@@ -2,9 +2,11 @@
 // モジュールは store を見て表示し、store に書くだけ。自分では値を持たない
 import { useApplicationStore } from '@/stores/application'
 import { storeToRefs } from 'pinia'
+import ModuleFooter from './ModuleFooter.vue'
 
 const store = useApplicationStore()
 const { applicant } = storeToRefs(store)
+const { proceed, cancelApplication } = store
 </script>
 
 <template>
@@ -18,6 +20,7 @@ const { applicant } = storeToRefs(store)
       <label for="phone">電話番号</label>
       <input id="phone" type="tel" v-model="applicant.phone" />
     </div>
+    <ModuleFooter @proceed="proceed('applicant')" @cancel="cancelApplication" />
   </section>
 </template>
 

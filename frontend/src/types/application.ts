@@ -12,3 +12,10 @@ export interface ApplicantInfo {
   name: string
   phone: string
 }
+
+// モジュール2：支払方法
+export type PaymentMethod = 'credit' | 'bank'
+
+export interface PaymentInfo {
+  method: PaymentMethod | null // null = 未選択
+}

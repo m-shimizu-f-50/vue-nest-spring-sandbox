@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import ApplicantModule from '@/components/application/ApplicantModule.vue'
+import PaymentModule from '@/components/application/PaymentModule.vue'
 import StatusBar from '@/components/application/StatusBar.vue'
+import { useApplicationStore } from '@/stores/application'
 
 // シェル（大皿）は並べるだけ。値も進捗も持たない（すべて store にある）
+const applicationStore = useApplicationStore()
+const { isModuleVisible } = applicationStore
 </script>
 
 <template>
@@ -13,6 +17,7 @@ import StatusBar from '@/components/application/StatusBar.vue'
 
     <main class="module-area">
       <ApplicantModule />
+      <PaymentModule v-if="isModuleVisible('payment')" />
     </main>
   </div>
 </template>
